@@ -1,1 +1,4 @@
 # FunctionalADO
+This project is a console app to demo a functional style with ADO.NET.  It is designed to interact with the "AdventureWorks" sample database.  The approach is similar to that described at https://channel9.msdn.com/Blogs/AndrewDavey/Functional-ADONET.  I have used this in actual production code to improve clarity of data access and eliminate orphaned connections (from bugs in boilerplate code).
+### SQL Batch Inserts (with generics & reflection)
+The SqlBulkInserter uses an implementation of a reflection technique described by Jon Skeet in http://codeblog.jonskeet.uk/2008/08/09/making-reflection-fly-and-exploring-delegates/.  It creates delegates for property accessors once before iterating a large collection.  I used it to create an IDataReader from an IEnumerable<T> which is then used with the SqlBulkCopy class.  On my machine I was able to insert 5 million objects (with 8 properties) in 5 minutes, while keeping the memory usage below 10MB.
